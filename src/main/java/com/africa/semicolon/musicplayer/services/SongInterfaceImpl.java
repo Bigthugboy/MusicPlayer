@@ -11,6 +11,7 @@ import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 
 
@@ -33,19 +34,20 @@ public class SongInterfaceImpl implements SongInterface {
     private final AmazonS3 space;
 
     public SongInterfaceImpl() {
-        AWSCredentialsProvider credentialsProvider = new AWSStaticCredentialsProvider(new BasicAWSCredentials());
+        AWSCredentialsProvider credentialsProvider = new AWSStaticCredentialsProvider(new BasicAWSCredentials("AKIA5PJFUXBDHNCAR5EP","OOA13T26pQywgkFiOWgR6b07EtfaQkUP19xqv6KX"));
 
         space = AmazonS3ClientBuilder
                 .standard()
                 .withCredentials(credentialsProvider)
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("sf03.digitaloceanspaces.com", "sf03"))
+//                .withRegion(Regions.AP_EAST_1)
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("vpce-031c8c78e43e41fbf", "US East (N. Virginia) us-east-1"))
                 .build();
 
     }
 
     @Override
     public List<String> getSongFileNames() {
-        ListObjectsV2Result result = space.listObjectsV2("musicplayer");
+        ListObjectsV2Result result = space.listObjectsV2("musicplus");
         List<S3ObjectSummary> object = result.getObjectSummaries();
 //        it the details bout the object we have
         return object.stream()
